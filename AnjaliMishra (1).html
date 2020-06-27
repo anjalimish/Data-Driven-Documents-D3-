@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<head>
+<title> Histogram Distributions </title>
+  <meta charset="utf-8">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.5/d3.min.js"></script>
+  <script src="https://d3js.org/d3-random.v0.2.min.js"></script>
+  <script src="https://d3js.org/d3-array.v0.6.min.js"></script>
+  <style>
+    body { margin:0;position:fixed;top:0;right:0;bottom:0;left:0;
+background-color:#F7F9FA   ; }
+    svg { width:100%; height: 100% }
+    text { font-family: Courier;}
+    
+    rect {
+  shape-rendering: crispEdges;
+  fill:#3C838F ;
+}
+rect:hover {
+  fill: orange;
+}
+rect text {
+  fill: #999999;
+}
+
+  </style>
+</head>
+
+<body>
+<center><h1>Histogram Distributions</h1>
+  <script>
+    // Feel free to change or delete any of the code you see!
+    var svg = d3.select("body").append("svg")
+    var histogram = d3_array.histogram()
+    
+    var n = 100000;
+    
+    var normal = d3.range(n).map(function(d) {
+      return d3_random.randomNormal()()
+    })
+    var normalHisto = histogram(normal)
+    var normalG = svg.append("g")
+      .attr("transform", "translate(" + [500,0] + ")")
+    renderHisto(normalG, normalHisto);
+    normalG.append("text").text("Normal Distribution").attr("transform", "translate(150,165)")
+    
+    
+    var uniform = d3.range(n).map(function(d) {
+      return d3_random.randomUniform()()
+    })
+    var uniformHisto = histogram(uniform)
+    var uniformG = svg.append("g")
+      .attr("transform", "translate(" + [500,150] + ")")
+    renderHisto(uniformG, uniformHisto);
+    uniformG.append("text").text("Uniform Distribution").attr("transform", "translate(150,165)")
+    
+    var exp = d3.range(n).map(function(d) {
+      return d3_random.randomExponential(10)()
+    })
+    var expHisto = histogram(exp)
+    var expG = svg.append("g")
+      .attr("transform", "translate(" + [500,300] + ")")
+    renderHisto(expG, expHisto);
+    expG.append("text").text("Exponential Distribution").attr("transform", "translate(150,165)")
+    
+   
+    
+    
+    function renderHisto(g, data) {
+      var yscale = d3.scale.linear()
+        .domain([0, d3.max(data, function(d) {
+          return d.length
+        })])
+        .range([0, 100])
+    
+      g.selectAll("rect")
+        .data(data)
+        .enter()
+        .append("rect")
+        .attr({
+          x: function(d,i) { return 50 + i * 25},
+          y: function(d,i) { return 50 + 100 - yscale(d.length)},
+          width: 22,
+          height: function(d,i) { return yscale(d.length)}
+          
+       
+        })
+    }
+function refresh(n){
+   
+    
+    var normal = d3.range(n).map(function(d) {
+      return d3_random.randomNormal()()
+    })
+    var normalHisto = histogram(normal)
+    var normalG = svg.append("g")
+      .attr("transform", "translate(" + [500,0] + ")")
+    renderHisto(normalG, normalHisto);
+    normalG.append("text").text("Normal").attr("transform", "translate(150,165)")
+    
+    
+    var uniform = d3.range(n).map(function(d) {
+      return d3_random.randomUniform()()
+    })
+    var uniformHisto = histogram(uniform)
+    var uniformG = svg.append("g")
+      .attr("transform", "translate(" + [500,150] + ")")
+    renderHisto(uniformG, uniformHisto);
+    uniformG.append("text").text("Uniform").attr("transform", "translate(150,165)")
+    
+    var exp = d3.range(n).map(function(d) {
+      return d3_random.randomExponential(10)()
+    })
+    var expHisto = histogram(exp)
+    var expG = svg.append("g")
+      .attr("transform", "translate(" + [500,300] + ")")
+      
+    renderHisto(expG, expHisto);
+    expG.append("text").text("Exponential").attr("transform", "translate(150,165)")
+    
+   
+    
+    
+    
+    function renderHisto(g, data) {
+      var yscale = d3.scale.linear()
+        .domain([0, d3.max(data, function(d) {
+          return d.length
+        })])
+        .range([0, 100])
+    
+      g.selectAll("rect")
+        .data(data)
+        .enter()
+        .append("rect")
+        
+        .attr({
+          x: function(d,i) { return 50 + i * 25},
+          y: function(d,i) { return 50 + 100 - yscale(d.length)},
+          width: 22,
+          height: function(d,i) { return yscale(d.length)}
+        })
+    }
+    
+    }
+setInterval(function() {
+ var n = 100000;
+
+
+  refresh(n);
+}, 100);
+
+    
+
+    
+    
+    
+  </script>
+
+    <p> THE HISTOGRAM GETS AUTOMATICALLY UPDATED </P>
+</body>
